@@ -244,24 +244,32 @@
     text-shadow:0 1px 0 rgba(255,255,255,.5);}
 
   /* ===== landing / about ===== */
-  .landing-hero{text-align:center;padding:18px 10px 14px;border-bottom:2px solid var(--face-dark);box-shadow:inset 0 -1px 0 var(--face-hi);margin-bottom:14px;}
-  .landing-hero h1{font-size:18px;margin:0 0 7px;}
-  .landing-hero .tagline{font-family:var(--font-body);font-size:18px;color:#2a2a2a;margin:0 0 10px;line-height:1.4;}
-  .landing-hero .disclaimer{font-size:13px;color:#4a3400;margin:0 auto;max-width:640px;text-align:left;}
+  .landing-hero{text-align:center;padding:22px 14px 16px;border-bottom:2px solid var(--face-dark);box-shadow:inset 0 -1px 0 var(--face-hi);margin-bottom:16px;}
+  .landing-hero h1{font-size:20px;margin:0 0 8px;}
+  .landing-hero .tagline{font-family:var(--font-body);font-size:19px;color:#2a2a2a;margin:0 0 12px;line-height:1.45;}
+  .landing-hero .disclaimer{font-size:14px;color:#4a3400;margin:0 auto;max-width:640px;text-align:left;line-height:1.55;}
 
-  .eco-flow{background:var(--lcd-bg-dark);border:2px solid;border-color:var(--face-dark) var(--face-hi) var(--face-hi) var(--face-dark);box-shadow:inset 0 0 8px rgba(0,0,0,.6);padding:8px;margin:0 0 14px;min-height:320px;}
-  .eco-flow canvas{width:100%;height:auto;display:block;min-height:320px;}
+  .eco-flow{background:var(--lcd-bg-dark);border:2px solid;border-color:var(--face-dark) var(--face-hi) var(--face-hi) var(--face-dark);box-shadow:inset 0 0 8px rgba(0,0,0,.6);padding:10px;margin:0 0 16px;position:relative;overflow:hidden;}
 
-  .info-cols{display:grid;grid-template-columns:1fr;gap:12px;margin:0 0 14px;}
+  /* desktop: horizontal flow */
+  .flow-desktop{display:block;}
+  .flow-mobile{display:none;}
+
+  .info-cols{display:grid;grid-template-columns:1fr;gap:12px;margin:0 0 16px;}
   @media(min-width:640px){.info-cols{grid-template-columns:1fr 1fr;}}
-  .info-col{background:var(--face);border:2px solid;border-color:var(--face-hi) var(--face-dark) var(--face-dark) var(--face-hi);box-shadow:2px 2px 0 rgba(0,0,0,.25);padding:10px 12px;}
-  .info-col h3{font-family:var(--font-display);font-size:10px;margin:0 0 7px;line-height:1.5;}
-  .info-col ul{margin:0;padding-left:18px;font-family:var(--font-body);font-size:15px;line-height:1.55;color:#2a2a2a;}
-  .info-col li{margin-bottom:3px;}
+  .info-col{background:var(--face);border:2px solid;border-color:var(--face-hi) var(--face-dark) var(--face-dark) var(--face-hi);box-shadow:2px 2px 0 rgba(0,0,0,.25);}
+  .info-col summary{font-family:var(--font-display);font-size:10px;padding:12px 14px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;user-select:none;color:var(--ink);}
+  .info-col summary::-webkit-details-marker{display:none;}
+  .info-col summary::after{content:'+';font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--ink-dim);transition:transform .15s;}
+  .info-col[open] summary::after{content:'−';transform:rotate(0deg);}
+  .info-col .col-body{padding:0 14px 14px;font-family:var(--font-body);font-size:15px;line-height:1.6;color:#2a2a2a;}
+  .info-col .col-body ul{margin:0;padding-left:18px;}
+  .info-col .col-body li{margin-bottom:4px;}
 
-  .landing-cta{text-align:center;padding:6px 0 2px;}
-  .landing-cta .btn{font-size:17px;padding:11px 24px;}
-  .landing-cta p{margin-top:8px;font-family:var(--font-body);font-size:15px;color:#2a2a2a;}
+  .landing-cta{text-align:center;padding:10px 0 6px;}
+  .landing-cta .btn{font-size:18px;padding:14px 28px;min-height:48px;}
+  .landing-cta p{margin-top:10px;font-family:var(--font-body);font-size:16px;color:#2a2a2a;}
+  .landing-cta a{color:#1a4fa0;text-decoration:underline;}
 
   /* ===== tabbed charts ===== */
   .chart-tabs{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0 6px;}
@@ -271,32 +279,48 @@
   .chart-panel.active{display:block;}
 
   @media(max-width:768px){
-    .chassis{padding:14px 8px 10px;border-radius:14px;}
-    .brand-plate{font-size:8px;}
-    .kpis{grid-template-columns:repeat(2,1fr);gap:8px;}
-    .chart-wrap{height:180px;}
+    .chassis{padding:10px 6px 8px;border-radius:14px;}
+    .brand-plate{font-size:7.5px;letter-spacing:0;}
+    .kpis{grid-template-columns:repeat(2,1fr);gap:6px;}
+    .chart-wrap{height:170px;}
     .grid2{grid-template-columns:1fr !important;}
-    .nav-tabs button{padding:3px 8px;font-size:13px;}
-    .menu-reboot{padding:3px 8px;font-size:13px;}
+    .nav-tabs button{padding:4px 7px;font-size:12px;white-space:nowrap;}
+    .menu-reboot{padding:4px 7px;font-size:12px;white-space:nowrap;}
     .stepper{max-width:100%;}
-    .step-label{font-size:11px;}
-    .window-body{padding:10px;}
-    .row{grid-template-columns:1fr !important;gap:4px;padding:7px 0;}
+    .step-label{font-size:10px;}
+    .window-body{padding:8px;}
+    .row{grid-template-columns:1fr !important;gap:3px;padding:6px 0;}
     .row.two-up,.row.three-up{grid-template-columns:1fr !important;}
-    .ct{font-size:15px;}
-    .cs{font-size:13px;}
-    h1{font-size:15px;}
-    .subtitle{font-size:15px;}
-    .preset-card .pt{font-size:15px;}
-    .preset-card .pd{font-size:12px;}
+    .ct{font-size:14px;}
+    .cs{font-size:12px;}
+    h1{font-size:14px;}
+    .subtitle{font-size:14px;}
+    .preset-card .pt{font-size:14px;}
+    .preset-card .pd{font-size:11px;}
+    .landing-hero{padding:14px 8px 12px;}
+    .landing-hero h1{font-size:16px;}
+    .landing-hero .tagline{font-size:15px;}
+    .landing-hero .disclaimer{font-size:12px;}
+    .eco-flow{margin:0 0 10px;min-height:260px;}
+    .info-col summary{padding:10px 12px;font-size:9px;}
+    .info-col .col-body{font-size:13px;padding:0 10px 10px;}
+    .landing-cta .btn{font-size:15px;padding:12px 20px;}
+    .chart-tabs{gap:3px;}
+    .chart-tab{font-size:12px;padding:4px 7px;}
+    .screen{padding:6px;}
+    .scanlines{inset:6px;}
+    .menubar{padding:4px 5px;gap:6px;}
+    .menu-brand{font-size:9px;}
   }
   @media(max-width:400px){
-    .kpis{grid-template-columns:1fr 1fr;gap:6px;}
-    .chart-wrap{height:150px;}
-    .kpi .v{font-size:14px;}
-    .kpi .l{font-size:11px;}
-    .btn{font-size:14px;padding:7px 12px;}
+    .kpis{grid-template-columns:1fr 1fr;gap:5px;}
+    .chart-wrap{height:140px;}
+    .kpi .v{font-size:13px;}
+    .kpi .l{font-size:10px;}
+    .btn{font-size:13px;padding:8px 12px;}
     .brand-plate{font-size:7px;}
+    .landing-hero h1{font-size:14px;}
+    .landing-hero .tagline{font-size:13px;}
   }
 </style>
 </head>
@@ -535,32 +559,41 @@
                   <div class="disclaimer"><b>⚠ NOT FINANCIAL ADVICE</b>This is an educational simulator. The whitepaper's numeric constants are marked TBA. Every rate here is an editable assumption. The protocol is unlaunched and unaudited.</div>
                 </div>
 
-                <div class="eco-flow">
+                <div class="eco-flow" id="ecoFlowWrap">
                   <canvas id="flowDiagram" width="820" height="520"></canvas>
+                  <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+                    <button type="button" class="icon-btn" id="flowZoomIn" title="Zoom in">+</button>
+                    <button type="button" class="icon-btn" id="flowZoomOut" title="Zoom out">−</button>
+                    <button type="button" class="icon-btn" id="flowReset" title="Reset view">⟲</button>
+                  </div>
                 </div>
 
                 <div class="info-cols">
-                  <div class="info-col">
-                    <h3>WHAT THIS MODELS</h3>
-                    <ul>
-                      <li><b>$STANDARD</b> — ERC-20, 1B hard cap, 100M genesis POL</li>
-                      <li><b>Reflexive issuance</b> — driven by net ETH flow through the v4 pool</li>
-                      <li><b>Charters &amp; Branches</b> — 1,000 Founding Charters, up to 10 branches each</li>
-                      <li><b>Dutch auctions</b> — licenses burned in $STANDARD; charters sold in ETH</li>
-                      <li><b>Resolution fee</b> — quadratic exit tax, 50% burned / 50% to stayers</li>
-                      <li><b>Vault routing</b> — 70% active vault / 15% POL / 15% team</li>
-                    </ul>
-                  </div>
-                  <div class="info-col">
-                    <h3>HOW TO USE IT</h3>
-                    <ul>
-                      <li>Pick a <b>scenario</b> (bull, bear, choppy, bank run)</li>
-                      <li>Configure your <b>position</b>: charters, strategy, entry cost</li>
-                      <li>Run the sim and study the <b>outcome</b> across tabbed charts</li>
-                      <li>Adjust any <b>parameter</b> and re-run to build intuition</li>
-                      <li>Export results as <b>CSV or JSON</b> for your own analysis</li>
-                    </ul>
-                  </div>
+                  <details class="info-col">
+                    <summary>WHAT THIS MODELS ▸</summary>
+                    <div class="col-body">
+                      <ul>
+                        <li><b>$STANDARD</b> — ERC-20, 1B hard cap, 100M genesis POL</li>
+                        <li><b>Reflexive issuance</b> — driven by net ETH flow through the v4 pool</li>
+                        <li><b>Charters &amp; Branches</b> — 1,000 Founding Charters, up to 10 branches each</li>
+                        <li><b>Dutch auctions</b> — licenses burned in $STANDARD; charters sold in ETH</li>
+                        <li><b>Resolution fee</b> — quadratic exit tax, 50% burned / 50% to stayers</li>
+                        <li><b>Vault routing</b> — 70% active vault / 15% POL / 15% team</li>
+                      </ul>
+                    </div>
+                  </details>
+                  <details class="info-col">
+                    <summary>HOW TO USE IT ▸</summary>
+                    <div class="col-body">
+                      <ul>
+                        <li>Pick a <b>scenario</b> (bull, bear, choppy, bank run)</li>
+                        <li>Configure your <b>position</b>: charters, strategy, entry cost</li>
+                        <li>Run the sim and study the <b>outcome</b> across tabbed charts</li>
+                        <li>Adjust any <b>parameter</b> and re-run to build intuition</li>
+                        <li>Export results as <b>CSV or JSON</b> for your own analysis</li>
+                      </ul>
+                    </div>
+                  </details>
                 </div>
 
                 <div class="landing-cta">
@@ -1383,93 +1416,168 @@
     var rect = canvas.getBoundingClientRect();
     var W = rect.width || 820;
     if (W < 10) W = 820;
+    var isMobile = W < 560;
+    var H = isMobile ? 980 : 520;
     canvas.width = W * dpr;
-    canvas.height = 520 * dpr;
+    canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var H = 520;
     ctx.fillStyle = '#0b120d';
     ctx.fillRect(0, 0, W, H);
 
-    // responsive box sizing
-    var boxW = Math.max(140, Math.min(170, (W - 60) / 3 - 10));
-    var gap = (W - 40 - boxW * 3) / 2;
-    var boxes = [
-      { x: 40, y: 60, w: boxW, h: 72, label: 'TRADER', sub: 'ETH ↔ STD swap' },
-      { x: 40 + boxW + gap, y: 60, w: boxW, h: 72, label: 'POOL', sub: 'Uniswap v4 hooked\nconstant-product' },
-      { x: 40 + (boxW + gap) * 2, y: 60, w: boxW, h: 72, label: 'FEE ENGINE', sub: 'trading fee + auctions' },
-      { x: 40, y: 220, w: boxW, h: 72, label: 'EXPANSION\nVAULT', sub: '→ gold reserve' },
-      { x: 40 + boxW + gap, y: 220, w: boxW, h: 72, label: 'CONTRACTION\nVAULT', sub: '→ buy & burn STD' },
-      { x: 40 + (boxW + gap) * 2, y: 220, w: boxW, h: 72, label: 'POL MINT', sub: 'matched STD liquidity' },
-      { x: 40, y: 380, w: boxW, h: 72, label: 'RESOLUTION\nFEE', sub: 'quadratic exit tax' },
-      { x: 40 + boxW + gap, y: 380, w: boxW, h: 72, label: 'CHARTER +\nLICENSE AUCTION', sub: 'Dutch auction\nburn / ETH' },
-      { x: 40 + (boxW + gap) * 2, y: 380, w: boxW, h: 72, label: 'TEAM / TREASURY', sub: '15% fee split' }
-    ];
-
-    ctx.strokeStyle = '#1f3d2c';
-    ctx.lineWidth = 2;
-    ctx.fillStyle = '#0f2419';
-    boxes.forEach(function(b){
-      ctx.fillRect(b.x, b.y, b.w, b.h);
-      ctx.strokeRect(b.x, b.y, b.w, b.h);
-      ctx.fillStyle = '#d8e6de';
-      ctx.font = 'bold 14px "IBM Plex Mono", monospace';
-      ctx.fillText(b.label, b.x + 10, b.y + 26);
-      ctx.fillStyle = '#6a8a78';
-      ctx.font = '12px "IBM Plex Mono", monospace';
-      var lines = b.sub.split('\n');
-      lines.forEach(function(line, i){ ctx.fillText(line, b.x + 10, b.y + 44 + i * 14); });
+    function drawBox(x, y, w, h, label, sub){
       ctx.fillStyle = '#0f2419';
-    });
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#1f3d2c';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x, y, w, h);
+      ctx.fillStyle = '#d8e6de';
+      ctx.font = 'bold 13px "IBM Plex Mono", monospace';
+      var labelLines = label.split('\n');
+      var subLines = sub.split('\n');
+      var ly = y + 18;
+      labelLines.forEach(function(line){ ctx.fillText(line, x + 10, ly); ly += 15; });
+      ctx.fillStyle = '#6a8a78';
+      ctx.font = '11px "IBM Plex Mono", monospace';
+      subLines.forEach(function(line){ ctx.fillText(line, x + 10, ly); ly += 13; });
+    }
 
-    // arrows
-    ctx.strokeStyle = '#39d353';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([5, 4]);
-    var arrows = [
-      [40 + 170, 96, 260, 96],
-      [260 + 170, 96, 480, 96],
-      [480 + 170, 96, 700, 96, 700, 220 + 36, 480 + 85, 220 + 36],
-      [480, 220 + 72, 480, 380],
-      [260 + 85, 220 + 72, 260 + 85, 380],
-      [40 + 85, 220 + 72, 40 + 85, 380],
-      [260 + 85, 380 + 72, 260 + 85, 480, 355, 480, 355, 450]
-    ];
-    ctx.beginPath();
-    arrows.forEach(function(a){
-      ctx.moveTo(a[0], a[1]);
-      for (var i = 2; i < a.length; i += 2) ctx.lineTo(a[i], a[i + 1]);
-    });
-    ctx.stroke();
-    ctx.setLineDash([]);
+    function arrowLine(x1,y1,x2,y2){
+      ctx.strokeStyle = '#39d353'; ctx.lineWidth = 2; ctx.setLineDash([5,4]);
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); ctx.setLineDash([]);
+    }
+    function arrowL(...pts){
+      ctx.strokeStyle = '#39d353'; ctx.lineWidth = 2; ctx.setLineDash([5,4]);
+      ctx.beginPath(); ctx.moveTo(pts[0],pts[1]);
+      for(var i=2;i<pts.length;i+=2) ctx.lineTo(pts[i],pts[i+1]);
+      ctx.stroke(); ctx.setLineDash([]);
+    }
 
-    // arrows — computed from actual box geometry
-    function bx(i){ return boxes[i]; }
-    ctx.beginPath();
-    function arrowLine(x1,y1,x2,y2){ ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); }
-    function arrowL(...pts){ ctx.moveTo(pts[0],pts[1]); for(var i=2;i<pts.length;i+=2) ctx.lineTo(pts[i],pts[i+1]); }
-    var r0 = bx(0), r1 = bx(1), r2 = bx(2);
-    var r3 = bx(3), r4 = bx(4), r5 = bx(5);
-    var r6 = bx(6), r7 = bx(7), r8 = bx(8);
-    arrowLine(r0.x+r0.w, r0.y+r0.h/2, r1.x, r1.y+r1.h/2);
-    arrowLine(r1.x+r1.w, r1.y+r1.h/2, r2.x, r2.y+r2.h/2);
-    arrowL(r2.x+r2.w, r2.y+r2.h/2, W-10, r2.y+r2.h/2, W-10, r5.y+r5.h/2, r5.x+r5.w, r5.y+r5.h/2);
-    arrowLine(r2.x+r2.w/2, r2.y+r2.h, r5.x+r5.w/2, r5.y);
-    arrowLine(r1.x+r1.w/2, r1.y+r1.h, r4.x+r4.w/2, r4.y);
-    arrowLine(r0.x+r0.w/2, r0.y+r0.h, r3.x+r3.w/2, r3.y);
-    arrowL(r7.x+r7.w/2, r7.y, r7.x+r7.w/2, r7.y-20, r8.x+r8.w/2, r8.y-20, r8.x+r8.w/2, r8.y);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // title
-    ctx.fillStyle = '#d8e6de';
-    ctx.font = 'bold 13px "IBM Plex Mono", monospace';
-    ctx.fillText('ECONOMIX FLOW — v0.1 ARCHITECTURE', 40, 32);
-    ctx.fillStyle = '#6a8a78';
-    ctx.font = '11px "IBM Plex Mono", monospace';
-    ctx.fillText('Source: standardreserve.xyz/whitepaper', 40, H - 12);
+    if (!isMobile){
+      // DESKTOP: 3x3 grid
+      var boxW = Math.max(140, Math.min(170, (W - 60) / 3 - 10));
+      var gap = (W - 40 - boxW * 3) / 2;
+      var bY = [60, 220, 380];
+      var labels = [
+        ['TRADER','ETH ↔ STD swap'],
+        ['POOL','Uniswap v4 hooked\nconstant-product'],
+        ['FEE ENGINE','trading fee + auctions'],
+        ['EXPANSION\nVAULT','→ gold reserve'],
+        ['CONTRACTION\nVAULT','→ buy & burn STD'],
+        ['POL MINT','matched STD liquidity'],
+        ['RESOLUTION\nFEE','quadratic exit tax'],
+        ['CHARTER +\nLICENSE AUCTION','Dutch auction\nburn / ETH'],
+        ['TEAM /\nTREASURY','15% fee split']
+      ];
+      var boxes = [];
+      for (var i = 0; i < 3; i++){
+        for (var j = 0; j < 3; j++){
+          var idx = i * 3 + j;
+          boxes.push({ x: 40 + j * (boxW + gap), y: bY[i], w: boxW, h: 72, label: labels[idx][0], sub: labels[idx][1] });
+        }
+      }
+      boxes.forEach(function(b){ drawBox(b.x, b.y, b.w, b.h, b.label, b.sub); });
+      var r = function(i){ return boxes[i]; };
+      arrowLine(r(0).x+r(0).w, r(0).y+r(0).h/2, r(1).x, r(1).y+r(1).h/2);
+      arrowLine(r(1).x+r(1).w, r(1).y+r(1).h/2, r(2).x, r(2).y+r(2).h/2);
+      arrowL(r(2).x+r(2).w, r(2).y+r(2).h/2, W-10, r(2).y+r(2).h/2, W-10, r(5).y+r(5).h/2, r(5).x+r(5).w, r(5).y+r(5).h/2);
+      arrowLine(r(1).x+r(1).w/2, r(1).y+r(1).h, r(4).x+r(4).w/2, r(4).y);
+      arrowLine(r(0).x+r(0).w/2, r(0).y+r(0).h, r(3).x+r(3).w/2, r(3).y);
+      arrowLine(r(2).x+r(2).w/2, r(2).y+r(2).h, r(5).x+r(5).w/2, r(5).y);
+      arrowLine(r(4).x+r(4).w/2, r(4).y+r(4).h, r(7).x+r(7).w/2, r(7).y);
+      arrowLine(r(3).x+r(3).w/2, r(3).y+r(3).h, r(6).x+r(6).w/2, r(6).y);
+      arrowL(r(7).x+r(7).w/2, r(7).y, r(7).x+r(7).w/2, r(7).y-18, r(8).x+r(8).w/2, r(8).y-18, r(8).x+r(8).w/2, r(8).y);
+      ctx.fillStyle = '#d8e6de'; ctx.font = 'bold 13px "IBM Plex Mono", monospace';
+      ctx.fillText('ECONOMIX FLOW — v0.1 ARCHITECTURE', 40, 32);
+      ctx.fillStyle = '#6a8a78'; ctx.font = '11px "IBM Plex Mono", monospace';
+      ctx.fillText('Source: standardreserve.xyz/whitepaper', 40, H - 12);
+    } else {
+      // MOBILE: vertical single-column flow
+      var boxW = W - 40;
+      var boxH = 64;
+      var gapY = 18;
+      var y = 50;
+      var mobileNodes = [
+        ['TRADER','ETH ↔ STD swap'],
+        ['POOL','Uniswap v4 hooked\nconstant-product'],
+        ['FEE ENGINE','trading fee + auctions'],
+        ['EXPANSION VAULT','→ gold reserve'],
+        ['CONTRACTION VAULT','→ buy & burn STD'],
+        ['POL MINT','matched STD liquidity'],
+        ['RESOLUTION FEE','quadratic exit tax'],
+        ['CHARTER + LICENSE AUCTION','Dutch auction\nburn / ETH'],
+        ['TEAM / TREASURY','15% fee split']
+      ];
+      var boxes = [];
+      mobileNodes.forEach(function(node){
+        boxes.push({ x: 20, y: y, w: boxW, h: boxH, label: node[0], sub: node[1] });
+        y += boxH + gapY;
+      });
+      boxes.forEach(function(b){ drawBox(b.x, b.y, b.w, b.h, b.label, b.sub); });
+      for (var i = 0; i < boxes.length - 1; i++){
+        var cur = boxes[i], next = boxes[i+1];
+        arrowLine(cur.x + cur.w/2, cur.y + cur.h, next.x + next.w/2, next.y);
+      }
+      ctx.fillStyle = '#d8e6de'; ctx.font = 'bold 12px "IBM Plex Mono", monospace';
+      ctx.fillText('ECONOMIX FLOW — v0.1 ARCHITECTURE', 20, 28);
+      ctx.fillStyle = '#6a8a78'; ctx.font = '10px "IBM Plex Mono", monospace';
+      ctx.fillText('Source: standardreserve.xyz/whitepaper', 20, H - 10);
+    }
   }
   window.addEventListener('resize', drawFlowDiagram);
   drawFlowDiagram();
+
+  // ================= flow diagram interaction: pan + zoom =================
+  (function(){
+    var canvas = document.getElementById('flowDiagram');
+    if (!canvas) return;
+    var scale = 1, offsetX = 0, offsetY = 0;
+    var dragging = false, lastX = 0, lastY = 0;
+    var baseW = 820, baseH = 520;
+
+    function applyTransform(){
+      canvas.style.transform = 'translate(' + offsetX + 'px,' + offsetY + 'px) scale(' + scale + ')';
+      canvas.style.transformOrigin = 'top left';
+    }
+    function resetView(){
+      scale = 1; offsetX = 0; offsetY = 0; applyTransform();
+    }
+    function zoomBy(delta, cx, cy){
+      var oldScale = scale;
+      scale = Math.max(0.8, Math.min(4, scale + delta));
+      if (cx !== undefined){
+        offsetX = cx - (cx - offsetX) * (scale / oldScale);
+        offsetY = cy - (cy - offsetY) * (scale / oldScale);
+      }
+      applyTransform();
+    }
+
+    canvas.addEventListener('wheel', function(e){
+      e.preventDefault();
+      var rect = canvas.getBoundingClientRect();
+      zoomBy(-e.deltaY * 0.002, e.clientX - rect.left, e.clientY - rect.top);
+    }, { passive: false });
+
+    canvas.addEventListener('mousedown', function(e){ dragging = true; lastX = e.clientX; lastY = e.clientY; });
+    window.addEventListener('mousemove', function(e){ if (!dragging) return; offsetX += e.clientX - lastX; offsetY += e.clientY - lastY; lastX = e.clientX; lastY = e.clientY; applyTransform(); });
+    window.addEventListener('mouseup', function(){ dragging = false; });
+
+    canvas.addEventListener('touchstart', function(e){
+      if (e.touches.length === 1){ dragging = true; lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; }
+    }, { passive: true });
+    canvas.addEventListener('touchmove', function(e){
+      if (!dragging || e.touches.length !== 1) return;
+      offsetX += e.touches[0].clientX - lastX; offsetY += e.touches[0].clientY - lastY;
+      lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; applyTransform();
+    }, { passive: true });
+    canvas.addEventListener('touchend', function(){ dragging = false; });
+
+    var zi = document.getElementById('flowZoomIn');
+    var zo = document.getElementById('flowZoomOut');
+    var zr = document.getElementById('flowReset');
+    if (zi) zi.addEventListener('click', function(){ zoomBy(0.4); });
+    if (zo) zo.addEventListener('click', function(){ zoomBy(-0.4); });
+    if (zr) zr.addEventListener('click', resetView);
+  })();
 
   // ================= boot sequence =================
   var BOOT_LINES = [
