@@ -243,6 +243,33 @@
   .spec-plate{font-family:var(--font-mono);font-size:11px;color:#5a5646;line-height:1.6;text-align:center;
     text-shadow:0 1px 0 rgba(255,255,255,.5);}
 
+  /* ===== landing / about ===== */
+  .landing-hero{text-align:center;padding:18px 10px 14px;border-bottom:2px solid var(--face-dark);box-shadow:inset 0 -1px 0 var(--face-hi);margin-bottom:14px;}
+  .landing-hero h1{font-size:18px;margin:0 0 7px;}
+  .landing-hero .tagline{font-family:var(--font-body);font-size:18px;color:#2a2a2a;margin:0 0 10px;line-height:1.4;}
+  .landing-hero .disclaimer{font-size:13px;color:#4a3400;margin:0 auto;max-width:640px;text-align:left;}
+
+  .eco-flow{background:var(--lcd-bg-dark);border:2px solid;border-color:var(--face-dark) var(--face-hi) var(--face-hi) var(--face-dark);box-shadow:inset 0 0 8px rgba(0,0,0,.6);padding:8px;margin:0 0 14px;}
+  .eco-flow canvas{width:100%;height:auto;display:block;}
+
+  .info-cols{display:grid;grid-template-columns:1fr;gap:12px;margin:0 0 14px;}
+  @media(min-width:640px){.info-cols{grid-template-columns:1fr 1fr;}}
+  .info-col{background:var(--face);border:2px solid;border-color:var(--face-hi) var(--face-dark) var(--face-dark) var(--face-hi);box-shadow:2px 2px 0 rgba(0,0,0,.25);padding:10px 12px;}
+  .info-col h3{font-family:var(--font-display);font-size:10px;margin:0 0 7px;line-height:1.5;}
+  .info-col ul{margin:0;padding-left:18px;font-family:var(--font-body);font-size:15px;line-height:1.55;color:#2a2a2a;}
+  .info-col li{margin-bottom:3px;}
+
+  .landing-cta{text-align:center;padding:6px 0 2px;}
+  .landing-cta .btn{font-size:17px;padding:11px 24px;}
+  .landing-cta p{margin-top:8px;font-family:var(--font-body);font-size:15px;color:#2a2a2a;}
+
+  /* ===== tabbed charts ===== */
+  .chart-tabs{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0 6px;}
+  .chart-tab{font-family:var(--font-body);font-size:14px;background:var(--face);color:var(--ink);border:2px solid;border-color:var(--face-hi) var(--face-dark) var(--face-dark) var(--face-hi);padding:5px 9px;cursor:pointer;}
+  .chart-tab.active{background:#f0d28a;color:#3a2600;border-color:var(--face-dark) var(--face-hi) var(--face-hi) var(--face-dark);}
+  .chart-panel{display:none;}
+  .chart-panel.active{display:block;}
+
   @media(max-width:768px){
     .chassis{padding:14px 8px 10px;border-radius:14px;}
     .brand-plate{font-size:8px;}
@@ -296,6 +323,7 @@
             <span class="menu-brand">SRS</span>
             <nav class="nav-tabs">
               <button type="button" data-page="simulator" class="active">Simulator</button>
+              <button type="button" data-page="about">About</button>
               <button type="button" data-page="history">History</button>
             </nav>
             <button type="button" class="menu-reboot" id="rebootBtn">⟳ Reboot</button>
@@ -418,39 +446,57 @@
                     <div id="epochRangeNote" style="font-family:var(--font-body);font-size:14px;color:var(--ink-dim);margin-bottom:8px;"></div>
                     <div class="kpis" id="kpiGrid"></div>
 
-                    <div class="chart-block">
-                      <div class="ct-row"><div><div class="ct">Market price vs. reserve-backed floor value</div><div class="cs">$STANDARD price on the pool, against (gold + POL) ÷ circulating supply.</div></div><button type="button" class="icon-btn" data-chart="price" title="Download chart as PNG">⤓</button></div>
-                      <div class="chart-wrap"><canvas id="chartPrice" role="img" aria-label="Line chart comparing market price to reserve-backed floor value per token over time"></canvas></div>
+                    <div class="chart-tabs" id="chartTabs">
+                      <button type="button" class="chart-tab active" data-tab="price">Price vs floor</button>
+                      <button type="button" class="chart-tab" data-tab="supply">Supply / burn</button>
+                      <button type="button" class="chart-tab" data-tab="multiplier">Multiplier</button>
+                      <button type="button" class="chart-tab" data-tab="flow">Flow</button>
+                      <button type="button" class="chart-tab" data-tab="reserves">Reserves</button>
+                      <button type="button" class="chart-tab" data-tab="resFee">Exit fee</button>
+                      <button type="button" class="chart-tab" data-tab="user">Your position</button>
                     </div>
 
-                    <div class="chart-block">
-                      <div class="ct-row"><div><div class="ct">Circulating supply vs. cumulative burned</div><div class="cs">Minted-and-circulating $STANDARD against everything destroyed by licenses, burns and buybacks.</div></div><button type="button" class="icon-btn" data-chart="supply" title="Download chart as PNG">⤓</button></div>
-                      <div class="chart-wrap"><canvas id="chartSupply" role="img" aria-label="Line chart of circulating supply and cumulative burned tokens over time"></canvas></div>
+                    <div class="chart-panel active" id="panel-price">
+                      <div class="chart-block">
+                        <div class="ct-row"><div><div class="ct">Market price vs. reserve-backed floor value</div><div class="cs">$STANDARD price on the pool, against (gold + POL) ÷ circulating supply.</div></div><button type="button" class="icon-btn" data-chart="price" title="Download chart as PNG">⤓</button></div>
+                        <div class="chart-wrap"><canvas id="chartPrice" role="img" aria-label="Line chart comparing market price to reserve-backed floor value per token over time"></canvas></div>
+                      </div>
                     </div>
-
-                    <div class="chart-block">
-                      <div class="ct-row"><div><div class="ct">Issuance multiplier</div><div class="cs">Steps up per epoch of sustained inflow, cut immediately on a 2-epoch net outflow.</div></div><button type="button" class="icon-btn" data-chart="multiplier" title="Download chart as PNG">⤓</button></div>
-                      <div class="chart-wrap"><canvas id="chartMultiplier" role="img" aria-label="Line chart of the issuance multiplier over time"></canvas></div>
+                    <div class="chart-panel" id="panel-supply">
+                      <div class="chart-block">
+                        <div class="ct-row"><div><div class="ct">Circulating supply vs. cumulative burned</div><div class="cs">Minted-and-circulating $STANDARD against everything destroyed by licenses, burns and buybacks.</div></div><button type="button" class="icon-btn" data-chart="supply" title="Download chart as PNG">⤓</button></div>
+                        <div class="chart-wrap"><canvas id="chartSupply" role="img" aria-label="Line chart of circulating supply and cumulative burned tokens over time"></canvas></div>
+                      </div>
                     </div>
-
-                    <div class="chart-block">
-                      <div class="ct-row"><div><div class="ct">Net ETH flow per epoch</div><div class="cs">The scenario's raw input signal — this alone drives the multiplier and fee routing.</div></div><button type="button" class="icon-btn" data-chart="flow" title="Download chart as PNG">⤓</button></div>
-                      <div class="chart-wrap"><canvas id="chartFlow" role="img" aria-label="Bar chart of net ETH flow per epoch, positive and negative"></canvas></div>
+                    <div class="chart-panel" id="panel-multiplier">
+                      <div class="chart-block">
+                        <div class="ct-row"><div><div class="ct">Issuance multiplier</div><div class="cs">Steps up per epoch of sustained inflow, cut immediately on a 2-epoch net outflow.</div></div><button type="button" class="icon-btn" data-chart="multiplier" title="Download chart as PNG">⤓</button></div>
+                        <div class="chart-wrap"><canvas id="chartMultiplier" role="img" aria-label="Line chart of the issuance multiplier over time"></canvas></div>
+                      </div>
                     </div>
-
-                    <div class="chart-block">
-                      <div class="ct-row"><div><div class="ct">Balance sheet hardening</div><div class="cs">Gold reserves and protocol-owned liquidity, in ETH, against total market cap.</div></div><button type="button" class="icon-btn" data-chart="reserves" title="Download chart as PNG">⤓</button></div>
-                      <div class="chart-wrap"><canvas id="chartReserves" role="img" aria-label="Area chart of gold reserves, protocol owned liquidity, and market capitalization in ETH over time"></canvas></div>
+                    <div class="chart-panel" id="panel-flow">
+                      <div class="chart-block">
+                        <div class="ct-row"><div><div class="ct">Net ETH flow per epoch</div><div class="cs">The scenario's raw input signal — this alone drives the multiplier and fee routing.</div></div><button type="button" class="icon-btn" data-chart="flow" title="Download chart as PNG">⤓</button></div>
+                        <div class="chart-wrap"><canvas id="chartFlow" role="img" aria-label="Bar chart of net ETH flow per epoch, positive and negative"></canvas></div>
+                      </div>
                     </div>
-
-                    <div class="chart-block">
-                      <div class="ct-row"><div><div class="ct">Resolution fee (exit tax)</div><div class="cs">Quadratic congestion tax on trailing 7-epoch system-wide exit pressure.</div></div><button type="button" class="icon-btn" data-chart="resFee" title="Download chart as PNG">⤓</button></div>
-                      <div class="chart-wrap"><canvas id="chartResFee" role="img" aria-label="Line chart of the resolution fee percentage over time"></canvas></div>
+                    <div class="chart-panel" id="panel-reserves">
+                      <div class="chart-block">
+                        <div class="ct-row"><div><div class="ct">Balance sheet hardening</div><div class="cs">Gold reserves and protocol-owned liquidity, in ETH, against total market cap.</div></div><button type="button" class="icon-btn" data-chart="reserves" title="Download chart as PNG">⤓</button></div>
+                        <div class="chart-wrap"><canvas id="chartReserves" role="img" aria-label="Area chart of gold reserves, protocol owned liquidity, and market capitalization in ETH over time"></canvas></div>
+                      </div>
                     </div>
-
-                    <div class="chart-block">
-                      <div class="ct-row"><div><div class="ct">Your position</div><div class="cs">Portfolio value in ETH terms (realized + unrealized) under your chosen strategy.</div></div><button type="button" class="icon-btn" data-chart="user" title="Download chart as PNG">⤓</button></div>
-                      <div class="chart-wrap"><canvas id="chartUser" role="img" aria-label="Line chart of user portfolio value in ETH over time"></canvas></div>
+                    <div class="chart-panel" id="panel-resFee">
+                      <div class="chart-block">
+                        <div class="ct-row"><div><div class="ct">Resolution fee (exit tax)</div><div class="cs">Quadratic congestion tax on trailing 7-epoch system-wide exit pressure.</div></div><button type="button" class="icon-btn" data-chart="resFee" title="Download chart as PNG">⤓</button></div>
+                        <div class="chart-wrap"><canvas id="chartResFee" role="img" aria-label="Line chart of the resolution fee percentage over time"></canvas></div>
+                      </div>
+                    </div>
+                    <div class="chart-panel" id="panel-user">
+                      <div class="chart-block">
+                        <div class="ct-row"><div><div class="ct">Your position</div><div class="cs">Portfolio value in ETH terms (realized + unrealized) under your chosen strategy.</div></div><button type="button" class="icon-btn" data-chart="user" title="Download chart as PNG">⤓</button></div>
+                        <div class="chart-wrap"><canvas id="chartUser" role="img" aria-label="Line chart of user portfolio value in ETH over time"></canvas></div>
+                      </div>
                     </div>
 
                     <div class="warn-note" id="modelNotes"></div>
@@ -474,6 +520,57 @@
 
               </div>
               <div class="statusbar" id="simStatusBar">Ready.</div>
+            </div>
+
+            <!-- ============ ABOUT / LANDING ============ -->
+            <div id="page-about" class="window" style="display:none;">
+              <div class="titlebar">
+                <span class="tb-text" id="aboutTitleText">ABOUT.STD</span>
+                <span class="tb-boxes"><i></i><i></i></span>
+              </div>
+              <div class="window-body">
+                <div class="landing-hero">
+                  <h1>Standard Reserve Simulator</h1>
+                  <p class="tagline">An interactive mental-model tool for the "sovereign onchain central bank" whitepaper (v0.1). Explore issuance, auctions, exits, and reserves before the protocol exists.</p>
+                  <div class="disclaimer"><b>⚠ NOT FINANCIAL ADVICE</b>This is an educational simulator. The whitepaper's numeric constants are marked TBA. Every rate here is an editable assumption. The protocol is unlaunched and unaudited.</div>
+                </div>
+
+                <div class="eco-flow">
+                  <canvas id="flowDiagram" width="820" height="520"></canvas>
+                </div>
+
+                <div class="info-cols">
+                  <div class="info-col">
+                    <h3>WHAT THIS MODELS</h3>
+                    <ul>
+                      <li><b>$STANDARD</b> — ERC-20, 1B hard cap, 100M genesis POL</li>
+                      <li><b>Reflexive issuance</b> — driven by net ETH flow through the v4 pool</li>
+                      <li><b>Charters &amp; Branches</b> — 1,000 Founding Charters, up to 10 branches each</li>
+                      <li><b>Dutch auctions</b> — licenses burned in $STANDARD; charters sold in ETH</li>
+                      <li><b>Resolution fee</b> — quadratic exit tax, 50% burned / 50% to stayers</li>
+                      <li><b>Vault routing</b> — 70% active vault / 15% POL / 15% team</li>
+                    </ul>
+                  </div>
+                  <div class="info-col">
+                    <h3>HOW TO USE IT</h3>
+                    <ul>
+                      <li>Pick a <b>scenario</b> (bull, bear, choppy, bank run)</li>
+                      <li>Configure your <b>position</b>: charters, strategy, entry cost</li>
+                      <li>Run the sim and study the <b>outcome</b> across tabbed charts</li>
+                      <li>Adjust any <b>parameter</b> and re-run to build intuition</li>
+                      <li>Export results as <b>CSV or JSON</b> for your own analysis</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="landing-cta">
+                  <button type="button" class="btn primary" id="launchSimBtn">Launch Simulator →</button>
+                  <p style="margin-top:10px;font-family:var(--font-body);font-size:15px;color:#2a2a2a;">
+                    <a href="https://www.standardreserve.xyz/whitepaper/" target="_blank" rel="noopener">Read the full whitepaper →</a>
+                  </p>
+                </div>
+              </div>
+              <div class="statusbar">educational tool — not financial advice</div>
             </div>
 
             <!-- ============ HISTORY WINDOW ============ -->
@@ -1020,6 +1117,7 @@
   // ================= UI: page routing =================
   function goToPage(name){
     $('page-simulator').style.display = (name === 'simulator') ? 'block' : 'none';
+    $('page-about').style.display = (name === 'about') ? 'block' : 'none';
     $('page-history').style.display = (name === 'history') ? 'block' : 'none';
     document.querySelectorAll('.nav-tabs button').forEach(function(b){
       b.classList.toggle('active', b.getAttribute('data-page') === name);
@@ -1254,6 +1352,101 @@
   $('viewHistoryBtn').addEventListener('click', function(){ goToPage('history'); });
   $('exportCsvBtn').addEventListener('click', function(){ if (currentRun) exportCSV(currentRun.series, 'standard-reserve-run'); });
   $('exportJsonBtn').addEventListener('click', function(){ if (currentRun) exportJSON(currentRun.cfg, currentRun.series, 'standard-reserve-run'); });
+
+  // ================= chart tabs =================
+  function activateChartTab(tabName){
+    document.querySelectorAll('.chart-tab').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-tab') === tabName);
+    });
+    document.querySelectorAll('.chart-panel').forEach(function(p){
+      p.classList.toggle('active', p.id === 'panel-' + tabName);
+    });
+  }
+  document.getElementById('chartTabs').addEventListener('click', function(e){
+    var btn = e.target.closest('.chart-tab');
+    if (!btn) return;
+    activateChartTab(btn.getAttribute('data-tab'));
+  });
+
+  // ================= launch from landing =================
+  document.getElementById('launchSimBtn').addEventListener('click', function(){
+    goToPage('simulator');
+    goToStep('welcome');
+  });
+
+  // ================= flow diagram (landing page) =================
+  function drawFlowDiagram(){
+    var canvas = document.getElementById('flowDiagram');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    var rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = 520 * dpr;
+    ctx.scale(dpr, dpr);
+    var W = rect.width, H = 520;
+    ctx.fillStyle = '#0b120d';
+    ctx.fillRect(0, 0, W, H);
+
+    // boxes
+    var boxes = [
+      { x: 40, y: 60, w: 170, h: 72, label: 'TRADER', sub: 'ETH ↔ STD swap' },
+      { x: 260, y: 60, w: 170, h: 72, label: 'POOL', sub: 'Uniswap v4 hooked\nconstant-product' },
+      { x: 480, y: 60, w: 170, h: 72, label: 'FEE ENGINE', sub: 'trading fee + auctions' },
+      { x: 40, y: 220, w: 170, h: 72, label: 'EXPANSION\nVAULT', sub: '→ gold reserve' },
+      { x: 260, y: 220, w: 170, h: 72, label: 'CONTRACTION\nVAULT', sub: '→ buy & burn STD' },
+      { x: 480, y: 220, w: 170, h: 72, label: 'POL MINT', sub: 'matched STD liquidity' },
+      { x: 40, y: 380, w: 170, h: 72, label: 'RESOLUTION\nFEE', sub: 'quadratic exit tax' },
+      { x: 260, y: 380, w: 170, h: 72, label: 'CHARTER +\nLICENSE AUCTION', sub: 'Dutch auction\nburn / ETH' },
+      { x: 480, y: 380, w: 170, h: 72, label: 'TEAM / TREASURY', sub: '15% fee split' }
+    ];
+
+    ctx.strokeStyle = '#1f3d2c';
+    ctx.lineWidth = 2;
+    ctx.fillStyle = '#0f2419';
+    boxes.forEach(function(b){
+      ctx.fillRect(b.x, b.y, b.w, b.h);
+      ctx.strokeRect(b.x, b.y, b.w, b.h);
+      ctx.fillStyle = '#d8e6de';
+      ctx.font = 'bold 14px "IBM Plex Mono", monospace';
+      ctx.fillText(b.label, b.x + 10, b.y + 26);
+      ctx.fillStyle = '#6a8a78';
+      ctx.font = '12px "IBM Plex Mono", monospace';
+      var lines = b.sub.split('\n');
+      lines.forEach(function(line, i){ ctx.fillText(line, b.x + 10, b.y + 44 + i * 14); });
+      ctx.fillStyle = '#0f2419';
+    });
+
+    // arrows
+    ctx.strokeStyle = '#39d353';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 4]);
+    var arrows = [
+      [40 + 170, 96, 260, 96],
+      [260 + 170, 96, 480, 96],
+      [480 + 170, 96, 700, 96, 700, 220 + 36, 480 + 85, 220 + 36],
+      [480, 220 + 72, 480, 380],
+      [260 + 85, 220 + 72, 260 + 85, 380],
+      [40 + 85, 220 + 72, 40 + 85, 380],
+      [260 + 85, 380 + 72, 260 + 85, 480, 355, 480, 355, 450]
+    ];
+    ctx.beginPath();
+    arrows.forEach(function(a){
+      ctx.moveTo(a[0], a[1]);
+      for (var i = 2; i < a.length; i += 2) ctx.lineTo(a[i], a[i + 1]);
+    });
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // title
+    ctx.fillStyle = '#d8e6de';
+    ctx.font = 'bold 13px "IBM Plex Mono", monospace';
+    ctx.fillText('ECONOMIX FLOW — v0.1 ARCHITECTURE', 40, 32);
+    ctx.fillStyle = '#6a8a78';
+    ctx.font = '11px "IBM Plex Mono", monospace';
+    ctx.fillText('Source: standardreserve.xyz/whitepaper', 40, H - 12);
+  }
+  window.addEventListener('resize', drawFlowDiagram);
 
   // ================= boot sequence =================
   var BOOT_LINES = [
