@@ -243,9 +243,33 @@
   .spec-plate{font-family:var(--font-mono);font-size:11px;color:#5a5646;line-height:1.6;text-align:center;
     text-shadow:0 1px 0 rgba(255,255,255,.5);}
 
-  @media(max-width:600px){
-    .chassis{padding:12px 10px 8px;border-radius:14px;}
+  @media(max-width:768px){
+    .chassis{padding:14px 8px 10px;border-radius:14px;}
     .brand-plate{font-size:8px;}
+    .kpis{grid-template-columns:repeat(2,1fr);gap:8px;}
+    .chart-wrap{height:180px;}
+    .grid2{grid-template-columns:1fr !important;}
+    .nav-tabs button{padding:3px 8px;font-size:13px;}
+    .menu-reboot{padding:3px 8px;font-size:13px;}
+    .stepper{max-width:100%;}
+    .step-label{font-size:11px;}
+    .window-body{padding:10px;}
+    .row{grid-template-columns:1fr !important;gap:4px;padding:7px 0;}
+    .row.two-up,.row.three-up{grid-template-columns:1fr !important;}
+    .ct{font-size:15px;}
+    .cs{font-size:13px;}
+    h1{font-size:15px;}
+    .subtitle{font-size:15px;}
+    .preset-card .pt{font-size:15px;}
+    .preset-card .pd{font-size:12px;}
+  }
+  @media(max-width:400px){
+    .kpis{grid-template-columns:1fr 1fr;gap:6px;}
+    .chart-wrap{height:150px;}
+    .kpi .v{font-size:14px;}
+    .kpi .l{font-size:11px;}
+    .btn{font-size:14px;padding:7px 12px;}
+    .brand-plate{font-size:7px;}
   }
 </style>
 </head>
