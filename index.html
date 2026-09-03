@@ -249,8 +249,8 @@
   .landing-hero .tagline{font-family:var(--font-body);font-size:18px;color:#2a2a2a;margin:0 0 10px;line-height:1.4;}
   .landing-hero .disclaimer{font-size:13px;color:#4a3400;margin:0 auto;max-width:640px;text-align:left;}
 
-  .eco-flow{background:var(--lcd-bg-dark);border:2px solid;border-color:var(--face-dark) var(--face-hi) var(--face-hi) var(--face-dark);box-shadow:inset 0 0 8px rgba(0,0,0,.6);padding:8px;margin:0 0 14px;}
-  .eco-flow canvas{width:100%;height:auto;display:block;}
+  .eco-flow{background:var(--lcd-bg-dark);border:2px solid;border-color:var(--face-dark) var(--face-hi) var(--face-hi) var(--face-dark);box-shadow:inset 0 0 8px rgba(0,0,0,.6);padding:8px;margin:0 0 14px;min-height:320px;}
+  .eco-flow canvas{width:100%;height:auto;display:block;min-height:320px;}
 
   .info-cols{display:grid;grid-template-columns:1fr;gap:12px;margin:0 0 14px;}
   @media(min-width:640px){.info-cols{grid-template-columns:1fr 1fr;}}
@@ -322,8 +322,8 @@
           <div class="menubar">
             <span class="menu-brand">SRS</span>
             <nav class="nav-tabs">
-              <button type="button" data-page="simulator" class="active">Simulator</button>
               <button type="button" data-page="about">About</button>
+              <button type="button" data-page="simulator" class="active">Simulator</button>
               <button type="button" data-page="history">History</button>
             </nav>
             <button type="button" class="menu-reboot" id="rebootBtn">⟳ Reboot</button>
@@ -1381,24 +1381,28 @@
     var ctx = canvas.getContext('2d');
     var dpr = window.devicePixelRatio || 1;
     var rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
+    var W = rect.width || 820;
+    if (W < 10) W = 820;
+    canvas.width = W * dpr;
     canvas.height = 520 * dpr;
-    ctx.scale(dpr, dpr);
-    var W = rect.width, H = 520;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var H = 520;
     ctx.fillStyle = '#0b120d';
     ctx.fillRect(0, 0, W, H);
 
-    // boxes
+    // responsive box sizing
+    var boxW = Math.max(140, Math.min(170, (W - 60) / 3 - 10));
+    var gap = (W - 40 - boxW * 3) / 2;
     var boxes = [
-      { x: 40, y: 60, w: 170, h: 72, label: 'TRADER', sub: 'ETH ↔ STD swap' },
-      { x: 260, y: 60, w: 170, h: 72, label: 'POOL', sub: 'Uniswap v4 hooked\nconstant-product' },
-      { x: 480, y: 60, w: 170, h: 72, label: 'FEE ENGINE', sub: 'trading fee + auctions' },
-      { x: 40, y: 220, w: 170, h: 72, label: 'EXPANSION\nVAULT', sub: '→ gold reserve' },
-      { x: 260, y: 220, w: 170, h: 72, label: 'CONTRACTION\nVAULT', sub: '→ buy & burn STD' },
-      { x: 480, y: 220, w: 170, h: 72, label: 'POL MINT', sub: 'matched STD liquidity' },
-      { x: 40, y: 380, w: 170, h: 72, label: 'RESOLUTION\nFEE', sub: 'quadratic exit tax' },
-      { x: 260, y: 380, w: 170, h: 72, label: 'CHARTER +\nLICENSE AUCTION', sub: 'Dutch auction\nburn / ETH' },
-      { x: 480, y: 380, w: 170, h: 72, label: 'TEAM / TREASURY', sub: '15% fee split' }
+      { x: 40, y: 60, w: boxW, h: 72, label: 'TRADER', sub: 'ETH ↔ STD swap' },
+      { x: 40 + boxW + gap, y: 60, w: boxW, h: 72, label: 'POOL', sub: 'Uniswap v4 hooked\nconstant-product' },
+      { x: 40 + (boxW + gap) * 2, y: 60, w: boxW, h: 72, label: 'FEE ENGINE', sub: 'trading fee + auctions' },
+      { x: 40, y: 220, w: boxW, h: 72, label: 'EXPANSION\nVAULT', sub: '→ gold reserve' },
+      { x: 40 + boxW + gap, y: 220, w: boxW, h: 72, label: 'CONTRACTION\nVAULT', sub: '→ buy & burn STD' },
+      { x: 40 + (boxW + gap) * 2, y: 220, w: boxW, h: 72, label: 'POL MINT', sub: 'matched STD liquidity' },
+      { x: 40, y: 380, w: boxW, h: 72, label: 'RESOLUTION\nFEE', sub: 'quadratic exit tax' },
+      { x: 40 + boxW + gap, y: 380, w: boxW, h: 72, label: 'CHARTER +\nLICENSE AUCTION', sub: 'Dutch auction\nburn / ETH' },
+      { x: 40 + (boxW + gap) * 2, y: 380, w: boxW, h: 72, label: 'TEAM / TREASURY', sub: '15% fee split' }
     ];
 
     ctx.strokeStyle = '#1f3d2c';
@@ -1438,6 +1442,24 @@
     ctx.stroke();
     ctx.setLineDash([]);
 
+    // arrows — computed from actual box geometry
+    function bx(i){ return boxes[i]; }
+    ctx.beginPath();
+    function arrowLine(x1,y1,x2,y2){ ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); }
+    function arrowL(...pts){ ctx.moveTo(pts[0],pts[1]); for(var i=2;i<pts.length;i+=2) ctx.lineTo(pts[i],pts[i+1]); }
+    var r0 = bx(0), r1 = bx(1), r2 = bx(2);
+    var r3 = bx(3), r4 = bx(4), r5 = bx(5);
+    var r6 = bx(6), r7 = bx(7), r8 = bx(8);
+    arrowLine(r0.x+r0.w, r0.y+r0.h/2, r1.x, r1.y+r1.h/2);
+    arrowLine(r1.x+r1.w, r1.y+r1.h/2, r2.x, r2.y+r2.h/2);
+    arrowL(r2.x+r2.w, r2.y+r2.h/2, W-10, r2.y+r2.h/2, W-10, r5.y+r5.h/2, r5.x+r5.w, r5.y+r5.h/2);
+    arrowLine(r2.x+r2.w/2, r2.y+r2.h, r5.x+r5.w/2, r5.y);
+    arrowLine(r1.x+r1.w/2, r1.y+r1.h, r4.x+r4.w/2, r4.y);
+    arrowLine(r0.x+r0.w/2, r0.y+r0.h, r3.x+r3.w/2, r3.y);
+    arrowL(r7.x+r7.w/2, r7.y, r7.x+r7.w/2, r7.y-20, r8.x+r8.w/2, r8.y-20, r8.x+r8.w/2, r8.y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
     // title
     ctx.fillStyle = '#d8e6de';
     ctx.font = 'bold 13px "IBM Plex Mono", monospace';
@@ -1447,6 +1469,7 @@
     ctx.fillText('Source: standardreserve.xyz/whitepaper', 40, H - 12);
   }
   window.addEventListener('resize', drawFlowDiagram);
+  drawFlowDiagram();
 
   // ================= boot sequence =================
   var BOOT_LINES = [
